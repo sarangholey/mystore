@@ -33,7 +33,7 @@ public class CommonUtil {
 	/**
 	 * This method will pause the script for 10000 milliseconds
 	 */
-	public static void LognWait() {
+	public static void LongWait() {
 		try {
 			Thread.sleep(10000);
 		} catch (InterruptedException e) {

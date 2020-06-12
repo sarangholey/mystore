@@ -5,10 +5,12 @@ import java.util.List;
 import java.util.Set;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.Select;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
@@ -102,6 +104,22 @@ public class ElementActions {
 			action.click(getElement(locator)).build().perform();
 		} catch (Exception e) {
 			System.out.println("Some excetion occured while clicking on webelement by actions :" + locator);
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	/**
+	 * This method perform .clear operation
+	 * on the WebElement
+	 * @param locator
+	 */
+	public void doClearTextBox(By locator) {
+		try {
+//			WebElement element = getElement(locator);
+//			element.sendKeys(Keys.BACK_SPACE);
+			getElement(locator).clear();
+		} catch (Exception e) {
+			System.out.println("Some excetion occured while sending the text in webelement :" + locator);
 			System.out.println(e.getMessage());
 		}
 	}
@@ -231,7 +249,21 @@ public class ElementActions {
 	public void waitForFramePresentAndSwitchToIt(By locator) {
 		wait.until(ExpectedConditions.frameToBeAvailableAndSwitchToIt(locator));
 	}
-
+	
+	/**
+	 * This method switch to the parent frame
+	 */
+	public void switchToParentFrame() {
+		driver.switchTo().parentFrame();
+	}
+	
+	/**
+	 * This method switch to the default/main frame
+	 */
+	public void switchToDefaultMainFrame() {
+		driver.switchTo().defaultContent();
+	}
+	
 	/**
 	 * This method waits for the visibilityOf
 	 * condition of the WebElement
@@ -327,6 +359,94 @@ public class ElementActions {
 	{
 		wait.until(ExpectedConditions.titleContains(titlesnippet));
 	}
+	
+	/**
+	 * This method select the value from the dropdown
+	 * @param locator
+	 * @param value
+	 * @param numericValueFromExcelSheet
+	 */
+	public void doSelectValueFromDropDown(By locator, String value, boolean numericValueFromExcelSheet)
+	{
+		if(numericValueFromExcelSheet)
+		{
+			String val = value.replace('.', '0');
+			int intValue = Integer.parseInt(val);
+			int actVal = (intValue/100);
+			String convertedVal = String.valueOf(actVal);
+			Select sel = new Select(getElement(locator));
+			sel.selectByValue(convertedVal);
+		}
+		else if(numericValueFromExcelSheet)
+		{
+			Select sel = new Select(getElement(locator));
+			sel.selectByValue(value);
+		}
+	}
+	
+	/**
+	 * This method will select the visible text value from the
+	 * dropdown
+	 * @param locator
+	 * @param value
+	 */
+	public void doSelectByVisibleText(By locator, String value)
+	{
+		Select sel = new Select(getElement(locator));
+		sel.selectByVisibleText(value);
+	}
+	
+	/**
+	 * This method select value from drop down on the basis
+	 * of value of the parameter
+	 * @param locator
+	 * @param value
+	 */
+	public void doSelectValueFromDropDown(By locator, String value)
+	{
+		Select sel = new Select(getElement(locator));
+		switch (value.toLowerCase()) {
+		case "january":
+			sel.selectByIndex(1);
+			break;
+		case "february":
+			sel.selectByIndex(2);
+			break;
+		case "march":
+			sel.selectByIndex(3);
+			break;
+		case "april":
+			sel.selectByIndex(4);
+			break;
+		case "may":
+			sel.selectByIndex(5);
+			break;
+		case "june":
+			sel.selectByIndex(6);
+			break;
+		case "july":
+			sel.selectByIndex(7);
+			break;
+		case "august":
+			sel.selectByIndex(8);
+			break;
+		case "september":
+			sel.selectByIndex(9);
+			break;
+		case "october":
+			sel.selectByIndex(10);
+			break;
+		case "november":
+			sel.selectByIndex(11);
+			break;
+		case "december":
+			sel.selectByIndex(12);
+			break;
 
+		default:
+			break;
+		}
+	}
+	
 }
 
